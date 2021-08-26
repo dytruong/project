@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment: 
+      MYSQL_ROOT_PASSWORD: "123456?Aa"
+      MYSQL_DATABASE: wpdb 
+      MYSQL_USER: truongtd6
+      MYSQL_PASSWORD: "123456?Ab"
+
+  wordpress:
+    depends_on: 
+      - db
+    image: wordpress  #the latest wordpress image
+    restart: always #will be restart after getting down
+    ports: #port public: port container
+      - 8080:80
+    environment: 
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: truongtd6
+      WORDPRESS_DB_PASSWORD: "123456?Ab"
+      WORDPRESS_DB_NAME: wpdb
+    volumes:
+      - wordpress_data:/var/www/html
+
+volumes:
+  db_data: {}
+  wordpress_data: {}
+
